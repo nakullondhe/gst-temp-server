@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brackets</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/brackets-viewer@latest/dist/brackets-viewer.min.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/brackets-viewer@latest/dist/brackets-viewer.min.js"
+    ></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="brackets-viewer">
+        <noscript>Error loading</noscript>
+      </div>
+    </div>
+    <script>
+      const url = new URL(window.location.href);
+      const code = url.searchParams.get("id");
+      // const api = 'https://raw.githubusercontent.com/Drarig29/brackets-viewer.js/master/demo/db.json'
+      // const api = `http://localhost:5000/api/tournaments/brackets/${code}`
+      const api = `https://3not3.io/api/tournaments/brackets/${code}`
+      async function render() {
+        let data = await fetch(api).then((res) => res.json());
+        data = data.data
+        window.bracketsViewer.render({
+          stages: data.stage,
+          matches: data.match,
+          matchGames: data.match_game,
+          participants: data.participant,
+        });
+      }
+      render();
+    </script>
+  </body>
+</html>
